@@ -16,6 +16,7 @@ namespace MemoryGame
         private List<Panel> gamePads;
         private bool[] selectedPads;
         private bool showingPads = false;
+        private int currentScore = 0;
         Dictionary<int, Action<object, EventArgs>> padsFunctions = new Dictionary<int, Action<object, EventArgs>>();
 
         public MemoryGameForm()
@@ -34,13 +35,13 @@ namespace MemoryGame
 
         private void startButton_Click(object sender, EventArgs e)
         {
-            Game(9);
+            Game(9, (currentScore != 0 ? 1000 / currentScore : 1000));
         }
 
-        private async void Game(int padNecessary)
+        private async void Game(int padNecessary, int showDelay)
         {
-            startButton.Visible = false;
-            confirmButton.Visible = true;
+            startButton.Enabled = false;
+            startButton.Text = "CONTINUE";
             showingPads = true;
 
             gamePads = new List<Panel>(padNecessary);
@@ -62,7 +63,7 @@ namespace MemoryGame
                 gamePads.Add(GamePad);
             }
 
-            await Task.Delay(500);
+            await Task.Delay(showDelay);
 
             for (int i = 0; i < padNecessary; i++)
             {
@@ -72,10 +73,24 @@ namespace MemoryGame
 
             showingPads = false;
 
-            await Task.Delay(1000);
+            await Task.Delay(2500);
 
-            if (selectedPads[genValue]) MessageBox.Show("BON");
-            else MessageBox.Show("MAUVAIS");
+            startButton.Enabled = true;
+
+            if (selectedPads[genValue])
+            {
+                currentScore++;
+                scoreLabel.Text = $"Score: {currentScore}";
+                for (int i = 0; i < padNecessary; i++)
+                    gamePads[i].BackColor = Color.FromArgb(241, 250, 238);
+            }
+            else
+            {
+                currentScore = 0;
+                scoreLabel.Text = $"Score: {currentScore}";
+                for (int i = 0; i < padNecessary; i++)
+                    gamePads[i].BackColor = Color.FromArgb(241, 250, 238);
+            }
         }
 
         private Point PadLocationGen(int padNumber, int totalPadInThisGame, Size padSize)
@@ -165,11 +180,6 @@ namespace MemoryGame
             }
 
             return new Size(gWidth, gHeight);
-        }
-
-        private void confirmButton_Click(object sender, EventArgs e)
-        {
-            Game(9);
         }
 
         private void PadsSelect1(object sender, EventArgs e)

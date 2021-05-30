@@ -32,7 +32,7 @@ namespace MemoryGame
             this.welcomeLabel = new System.Windows.Forms.Label();
             this.startButton = new System.Windows.Forms.Button();
             this.gamePanel = new System.Windows.Forms.Panel();
-            this.confirmButton = new System.Windows.Forms.Button();
+            this.scoreLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // welcomeLabel
@@ -72,23 +72,16 @@ namespace MemoryGame
             this.gamePanel.Size = new System.Drawing.Size(360, 360);
             this.gamePanel.TabIndex = 2;
             // 
-            // confirmButton
+            // scoreLabel
             // 
-            this.confirmButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(69)))), ((int)(((byte)(123)))), ((int)(((byte)(157)))));
-            this.confirmButton.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(241)))), ((int)(((byte)(250)))), ((int)(((byte)(238)))));
-            this.confirmButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(29)))), ((int)(((byte)(53)))), ((int)(((byte)(87)))));
-            this.confirmButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(168)))), ((int)(((byte)(218)))), ((int)(((byte)(220)))));
-            this.confirmButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.confirmButton.Font = new System.Drawing.Font("Segoe UI", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.confirmButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(241)))), ((int)(((byte)(250)))), ((int)(((byte)(238)))));
-            this.confirmButton.Location = new System.Drawing.Point(50, 52);
-            this.confirmButton.Name = "confirmButton";
-            this.confirmButton.Size = new System.Drawing.Size(387, 76);
-            this.confirmButton.TabIndex = 3;
-            this.confirmButton.Text = "CONFIRM";
-            this.confirmButton.UseVisualStyleBackColor = false;
-            this.confirmButton.Visible = false;
-            this.confirmButton.Click += new System.EventHandler(this.confirmButton_Click);
+            this.scoreLabel.AutoSize = true;
+            this.scoreLabel.Font = new System.Drawing.Font("Segoe UI Semibold", 14.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.scoreLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(241)))), ((int)(((byte)(250)))), ((int)(((byte)(238)))));
+            this.scoreLabel.Location = new System.Drawing.Point(2, 497);
+            this.scoreLabel.Name = "scoreLabel";
+            this.scoreLabel.Size = new System.Drawing.Size(84, 28);
+            this.scoreLabel.TabIndex = 4;
+            this.scoreLabel.Text = "Score: 0";
             // 
             // MemoryGameForm
             // 
@@ -96,7 +89,7 @@ namespace MemoryGame
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(57)))), ((int)(((byte)(70)))));
             this.ClientSize = new System.Drawing.Size(484, 532);
-            this.Controls.Add(this.confirmButton);
+            this.Controls.Add(this.scoreLabel);
             this.Controls.Add(this.gamePanel);
             this.Controls.Add(this.startButton);
             this.Controls.Add(this.welcomeLabel);
@@ -114,7 +107,7 @@ namespace MemoryGame
         private System.Windows.Forms.Label welcomeLabel;
         private System.Windows.Forms.Button startButton;
         private System.Windows.Forms.Panel gamePanel;
-        private System.Windows.Forms.Button confirmButton;
+        private System.Windows.Forms.Label scoreLabel;
     }
 }
 
