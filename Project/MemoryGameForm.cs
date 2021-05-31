@@ -33,7 +33,6 @@ namespace MemoryGame
             padsFunctions.Add(7, PadsSelect7);
             padsFunctions.Add(8, PadsSelect8);
             padsFunctions.Add(9, PadsSelect9);
-
             padsFunctions.Add(10, PadsSelect10);
             padsFunctions.Add(11, PadsSelect11);
             padsFunctions.Add(12, PadsSelect12);
@@ -47,16 +46,13 @@ namespace MemoryGame
 
         private void startButton_Click(object sender, EventArgs e)
         {
-            if (currentScore >= 0 && currentScore <= 5)
-                Game(9, (currentScore != 0 ? 1000 / currentScore : 1000), (currentScore > 0 ? 1 * currentScore : 2));
-            else if (currentScore >= 5)
-                Game(16, (currentScore != 0 ? 1000 / currentScore : 1000), (currentScore > 5 ? 6 : 3));
+            Game(9, 1000, 1);
         }
 
         private async void Game(int padNecessary, int showDelay, int neededBlackPad)
         {
             startButton.Enabled = false;
-            startButton.Text = "CONTINUE";
+            startButton.Text = "IN GAME";
             showingPads = true;
 
             gamePads = new List<Panel>(padNecessary);
@@ -103,8 +99,6 @@ namespace MemoryGame
 
             await Task.Delay(4000);
 
-            startButton.Enabled = true;
-
             bool isCorrect = false;
             for (int i = 0; i < selectedPads.Length; i++)
             {
@@ -115,8 +109,11 @@ namespace MemoryGame
                 else if (selectedPads[i] && !genValues.Contains(i))
                 {
                     isCorrect = false;
+                    selectedPads[i] = false;
                     break;
                 }
+
+                selectedPads[i] = false;
             }
 
             if (isCorrect)
@@ -124,10 +121,14 @@ namespace MemoryGame
                 goodAnswerSound.Play();
                 currentScore++;
                 scoreLabel.Text = $"Score: {currentScore}";
-                selectedPads = null;
 
                 for (int i = 0; i < padNecessary; i++)
                     gamePads[i].BackColor = Color.FromArgb(241, 250, 238);
+
+                if (currentScore >= 0 && currentScore <= 5)
+                    Game(9, (currentScore != 0 ? 1000 / currentScore : 1000), (currentScore > 0 ? 1 * currentScore : 2));
+                else if (currentScore >= 5)
+                    Game(16, (currentScore != 0 ? 1000 / currentScore : 1000), (currentScore > 5 ? 6 : 3));
             }
             else
             {
@@ -137,6 +138,8 @@ namespace MemoryGame
 
                 for (int i = 0; i < padNecessary; i++)
                     gamePads[i].BackColor = Color.FromArgb(241, 250, 238);
+
+                startButton.Enabled = true;
             }
         }
 
