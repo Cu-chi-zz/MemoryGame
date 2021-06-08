@@ -77,7 +77,7 @@ namespace MemoryGame
             this.scoreLabel.AutoSize = true;
             this.scoreLabel.Font = new System.Drawing.Font("Segoe UI Semibold", 14.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.scoreLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(241)))), ((int)(((byte)(250)))), ((int)(((byte)(238)))));
-            this.scoreLabel.Location = new System.Drawing.Point(2, 497);
+            this.scoreLabel.Location = new System.Drawing.Point(12, 497);
             this.scoreLabel.Name = "scoreLabel";
             this.scoreLabel.Size = new System.Drawing.Size(84, 28);
             this.scoreLabel.TabIndex = 4;
@@ -88,7 +88,7 @@ namespace MemoryGame
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(57)))), ((int)(((byte)(70)))));
-            this.ClientSize = new System.Drawing.Size(484, 532);
+            this.ClientSize = new System.Drawing.Size(484, 582);
             this.Controls.Add(this.scoreLabel);
             this.Controls.Add(this.gamePanel);
             this.Controls.Add(this.startButton);

@@ -84,19 +84,16 @@ namespace MemoryGame
             bool isCorrect = false;
             
             for (int i = 0; i < selectedPads.Length; i++)
-            { // Passage a 16 bon si uniquement 1 de select
+            {
                 if (selectedPads[i] && genValues.Contains(i))
                 {
                     isCorrect = true;
                 }
-                else if (selectedPads[i] && !genValues.Contains(i))
+                else if ((selectedPads[i] && !genValues.Contains(i)) || (!selectedPads[i] && genValues.Contains(i)))
                 {
                     isCorrect = false;
-                    selectedPads[i] = false;
                     break;
                 }
-
-                selectedPads[i] = false;
             }
 
             if (isCorrect)
@@ -113,7 +110,9 @@ namespace MemoryGame
                 else if (currentScore >= 5 && currentScore <= 12)
                     Game(16, 1000, (currentScore > 5 ? 6 : 3));
                 else if (currentScore >= 12)
-                    Game(64, 1500, 8);
+                    Game(64, 2500, 8);
+                else if (currentScore >= 20)
+                    Game(100, 3500, 10);
             }
             else
             {
@@ -157,8 +156,8 @@ namespace MemoryGame
 
         private Size PadSizeGen(int totalPadInThisGame)
         {
-            int gWidth = gamePanel.Size.Width / (int)(Math.Sqrt(totalPadInThisGame));
-            int gHeight = gamePanel.Size.Height / (int)(Math.Sqrt(totalPadInThisGame));
+            int gWidth = gamePanel.Size.Width / (int)Math.Sqrt(totalPadInThisGame);
+            int gHeight = gamePanel.Size.Height / (int)Math.Sqrt(totalPadInThisGame);
 
             return new Size(gWidth, gHeight);
         }
