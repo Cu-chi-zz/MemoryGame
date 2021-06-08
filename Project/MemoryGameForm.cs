@@ -117,6 +117,25 @@ namespace MemoryGame
             else
             {
                 wrongAnswerSound.Play();
+
+                for (int i = 0; i < padNecessary; i++)
+                {
+                    if (selectedPads[i] && genValues.Contains(i)) // If the panel is selected by the user and it is in the generate values
+                    {
+                        gamePads[i].BackColor = Color.FromArgb(65, 255, 65); // Set the panel color to green (to show that was a good answer)
+                    }
+                    else if (selectedPads[i] && !genValues.Contains(i)) // If the panel is selected but it is not in the generate values
+                    {
+                        gamePads[i].BackColor = Color.FromArgb(170, 120, 60); // Set the panel color to brown (to show that was a wrong answer)
+                    }
+                    else if (!selectedPads[i] && genValues.Contains(i)) // If the panel is not selected but it is in the generate values
+                    {
+                        gamePads[i].BackColor = Color.FromArgb(255, 65, 65); // Set the panel color to red (to show that was a wrong answer)
+                    }
+                }
+
+                await Task.Delay(3000);
+
                 currentScore = 0;
                 scoreLabel.Text = $"Score: {currentScore}";
                 startButton.Text = "START";
