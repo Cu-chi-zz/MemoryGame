@@ -40,9 +40,9 @@ namespace MemoryGame
             selectedPads = new bool[padNecessary];
 
             Random random = new Random();
-            List<int> genValues = new List<int>(neededBlackPad);
+            List<int> genValues = new List<int>(neededBlackPad); // Initializing an int list which one we're gonna put all generated values for the black pads.
 
-            for (int i = 0; i < neededBlackPad; i++)
+            for (int i = 0; i < neededBlackPad; i++) // Here, we generate value for all needed black pads
             {
                 int genValue;
 
@@ -54,14 +54,14 @@ namespace MemoryGame
                 genValues.Add(genValue);
             }
 
-            for (int i = 0; i < padNecessary; i++)
+            for (int i = 0; i < padNecessary; i++) // For all pads necessary
             {
-                Panel GamePad = new Panel();
-                if (genValues.Contains(i)) GamePad.BackColor = Color.FromArgb(24, 24, 24);
+                Panel GamePad = new Panel(); // Initialize a new Panel
+                if (genValues.Contains(i)) GamePad.BackColor = Color.FromArgb(24, 24, 24); // If i equals a generate value (in genValues list), then set he's color to black.
                 else GamePad.BackColor = Color.FromArgb(241, 250, 238);
                 GamePad.BorderStyle = BorderStyle.FixedSingle;
-                GamePad.Size = PadSizeGen(padNecessary);
-                GamePad.Location = PadLocationGen(i + 1, padNecessary, GamePad.Size);
+                GamePad.Size = PadSizeGen(padNecessary); // Calling this functions is gonna generate a size according to the necessary pads
+                GamePad.Location = PadLocationGen(i + 1, padNecessary, GamePad.Size); // Calling this functions is gonna set the panel emplacement according to the necessary pads
                 Controls.Add(GamePad);
                 GamePad.BringToFront();
 
@@ -70,11 +70,11 @@ namespace MemoryGame
 
             await Task.Delay(showDelay);
 
-            for (int i = 0; i < padNecessary; i++)
+            for (int i = 0; i < padNecessary; i++) // After the show delay, we set all panels to white color
             {
                 int x = i;
                 gamePads[i].BackColor = Color.FromArgb(241, 250, 238);
-                gamePads[i].Click += delegate { PadsSelect(x); };
+                gamePads[i].Click += delegate { PadsSelect(x); }; // Associate a function according to the panel
             }
 
             showingPads = false;
@@ -83,16 +83,16 @@ namespace MemoryGame
 
             bool isCorrect = false;
             
-            for (int i = 0; i < selectedPads.Length; i++)
+            for (int i = 0; i < selectedPads.Length; i++) // For all panels
             {
-                if (selectedPads[i] && genValues.Contains(i))
+                if (selectedPads[i] && genValues.Contains(i)) // If the panel is selected by the user and it is in the generate values,
                 {
-                    isCorrect = true;
+                    isCorrect = true; // it's a good answer
                 }
-                else if ((selectedPads[i] && !genValues.Contains(i)) || (!selectedPads[i] && genValues.Contains(i)))
+                else if ((selectedPads[i] && !genValues.Contains(i)) /* If the panel is selected but it is not in the generate values, */ || (!selectedPads[i] && genValues.Contains(i)) /* If the panel is not selected but it is in the generate values, */)
                 {
-                    isCorrect = false;
-                    break;
+                    isCorrect = false; // it's not a good answer
+                    break; // So break the for loop because it's wrong in all cases
                 }
             }
 
@@ -102,7 +102,7 @@ namespace MemoryGame
                 currentScore++;
                 scoreLabel.Text = $"Score: {currentScore}";
 
-                for (int i = 0; i < padNecessary; i++)
+                for (int i = 0; i < padNecessary; i++) // Reset all panels color to white
                     gamePads[i].BackColor = Color.FromArgb(241, 250, 238);
 
                 if (currentScore >= 0 && currentScore <= 5)
@@ -121,31 +121,38 @@ namespace MemoryGame
                 scoreLabel.Text = $"Score: {currentScore}";
                 startButton.Text = "START";
 
-                for (int i = 0; i < padNecessary; i++)
+                for (int i = 0; i < padNecessary; i++) // Reset all panels color to white
                     gamePads[i].BackColor = Color.FromArgb(241, 250, 238);
 
                 startButton.Enabled = true;
             }
         }
 
-        private Point PadLocationGen(int padNumber, int totalPadInThisGame, Size padSize)
+        /// <summary>
+        /// Generating a position according to the panel index, the total of panels in this game and the panel size.
+        /// </summary>
+        /// <param name="padNumber">Panel Index</param>
+        /// <param name="totalPadInThisGame">Total pads in this game</param>
+        /// <param name="padSize">Panel Size</param>
+        /// <returns>Panel Point</returns>
+        private Point PadLocationGen(int padIndex, int totalPadInThisGame, Size padSize)
         {
             int posX, posY;
-            double totalPadsSquare = Math.Sqrt(totalPadInThisGame);
+            double totalPadsSquareRoot = Math.Sqrt(totalPadInThisGame); // Square root of the totalPadInThisGame used to know panels number for each lines
 
             int i = 0;
             while (true)
             {
-                if (padNumber <= totalPadsSquare)
+                if (padIndex <= totalPadsSquareRoot) // Then the panel is in the first line
                 {
-                    posX = gamePanel.Location.X + padSize.Width * (padNumber % (int)totalPadsSquare);
+                    posX = gamePanel.Location.X + padSize.Width * (padIndex % (int)totalPadsSquareRoot); // X position plus panel size multiplied by the panel index divided by a euclidean division
                     posY = gamePanel.Location.Y;
                     break;
                 }
-                else if (padNumber > totalPadsSquare * (i - 1) && padNumber <= totalPadsSquare * i)
+                else if (padIndex > totalPadsSquareRoot * (i - 1) && padIndex <= totalPadsSquareRoot * i)
                 {
-                    posX = gamePanel.Location.X + padSize.Width * (padNumber % (int)totalPadsSquare);
-                    posY = gamePanel.Location.Y + padSize.Height * (i - 1);
+                    posX = gamePanel.Location.X + padSize.Width * (padIndex % (int)totalPadsSquareRoot);
+                    posY = gamePanel.Location.Y + padSize.Height * (i - 1); // Increase the Y position by the panel size multiplied by the line
                     break;
                 }
                 i++;
@@ -154,14 +161,24 @@ namespace MemoryGame
             return new Point(posX, posY);
         }
 
+        /// <summary>
+        /// Generate a panel size according to the necessary panels
+        /// </summary>
+        /// <param name="totalPadInThisGame">Total of pads in this game</param>
+        /// <returns>Panel size</returns>
         private Size PadSizeGen(int totalPadInThisGame)
         {
+            // The panel size (width & height) divide by the square root of the total panels in this game
             int gWidth = gamePanel.Size.Width / (int)Math.Sqrt(totalPadInThisGame);
             int gHeight = gamePanel.Size.Height / (int)Math.Sqrt(totalPadInThisGame);
 
             return new Size(gWidth, gHeight);
         }
 
+        /// <summary>
+        /// This function is associate with all pads, it set if the panel is selected or not.
+        /// </summary>
+        /// <param name="x">panel index</param>
         private void PadsSelect(int x)
         {
             if (showingPads) return;
