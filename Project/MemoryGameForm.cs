@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MemoryGame.Project.Data;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -8,6 +9,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
+using MemoryGame.Project.Json;
 
 namespace MemoryGame
 {
@@ -17,12 +20,30 @@ namespace MemoryGame
         private bool[] selectedPads;
         private bool showingPads = false;
         private int currentScore = 0;
-        private System.Media.SoundPlayer goodAnswerSound = new System.Media.SoundPlayer(@"sounds/good-answer.wav");
-        private System.Media.SoundPlayer wrongAnswerSound = new System.Media.SoundPlayer(@"sounds/wrong-answer.wav");
+        private System.Media.SoundPlayer goodAnswerSound = new(@"sounds/good-answer.wav");
+        private System.Media.SoundPlayer wrongAnswerSound = new(@"sounds/wrong-answer.wav");
+        private UserData data = new();
+        private Json json = new();
 
         public MemoryGameForm()
         {
             InitializeComponent();
+            if (!Directory.Exists("data") || !File.Exists("data\\udata.json"))
+            {
+                Directory.CreateDirectory("data");
+                FileStream file = File.Create("data\\udata.json");
+                file.Close();
+
+                data = new UserData { MaxScore = 0 };
+
+                json.WriteData(data, "data\\udata.json");
+            }
+            else
+            {
+                data = json.ReadData("data\\udata.json");
+            }
+
+            maxScoreLabel.Text += data.MaxScore.ToString();
         }
 
         private void startButton_Click(object sender, EventArgs e)
@@ -117,6 +138,13 @@ namespace MemoryGame
             else
             {
                 wrongAnswerSound.Play();
+
+                if (currentScore > data.MaxScore)
+                {
+                    data = new UserData { MaxScore = currentScore };
+                    json.WriteData(data, "data\\udata.json");
+                    maxScoreLabel.Text = $"Max score: {data.MaxScore}";
+                }
 
                 for (int i = 0; i < padNecessary; i++)
                 {

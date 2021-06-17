@@ -33,6 +33,7 @@ namespace MemoryGame
             this.startButton = new System.Windows.Forms.Button();
             this.gamePanel = new System.Windows.Forms.Panel();
             this.scoreLabel = new System.Windows.Forms.Label();
+            this.maxScoreLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // welcomeLabel
@@ -83,12 +84,24 @@ namespace MemoryGame
             this.scoreLabel.TabIndex = 4;
             this.scoreLabel.Text = "Score: 0";
             // 
+            // maxScoreLabel
+            // 
+            this.maxScoreLabel.AutoSize = true;
+            this.maxScoreLabel.Font = new System.Drawing.Font("Segoe UI Semibold", 14.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.maxScoreLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(241)))), ((int)(((byte)(250)))), ((int)(((byte)(238)))));
+            this.maxScoreLabel.Location = new System.Drawing.Point(12, 525);
+            this.maxScoreLabel.Name = "maxScoreLabel";
+            this.maxScoreLabel.Size = new System.Drawing.Size(115, 28);
+            this.maxScoreLabel.TabIndex = 5;
+            this.maxScoreLabel.Text = "Max score: ";
+            // 
             // MemoryGameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(57)))), ((int)(((byte)(70)))));
-            this.ClientSize = new System.Drawing.Size(484, 582);
+            this.ClientSize = new System.Drawing.Size(484, 561);
+            this.Controls.Add(this.maxScoreLabel);
             this.Controls.Add(this.scoreLabel);
             this.Controls.Add(this.gamePanel);
             this.Controls.Add(this.startButton);
@@ -108,6 +121,7 @@ namespace MemoryGame
         private System.Windows.Forms.Button startButton;
         private System.Windows.Forms.Panel gamePanel;
         private System.Windows.Forms.Label scoreLabel;
+        private System.Windows.Forms.Label maxScoreLabel;
     }
 }
 
