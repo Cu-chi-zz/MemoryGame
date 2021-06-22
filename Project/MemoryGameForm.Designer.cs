@@ -34,6 +34,7 @@ namespace MemoryGame
             this.gamePanel = new System.Windows.Forms.Panel();
             this.scoreLabel = new System.Windows.Forms.Label();
             this.maxScoreLabel = new System.Windows.Forms.Label();
+            this.nextLevelCheckBox = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // welcomeLabel
@@ -95,12 +96,26 @@ namespace MemoryGame
             this.maxScoreLabel.TabIndex = 5;
             this.maxScoreLabel.Text = "Max score: ";
             // 
+            // nextLevelCheckBox
+            // 
+            this.nextLevelCheckBox.AutoSize = true;
+            this.nextLevelCheckBox.Font = new System.Drawing.Font("Segoe UI Semibold", 14.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.nextLevelCheckBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(241)))), ((int)(((byte)(250)))), ((int)(((byte)(238)))));
+            this.nextLevelCheckBox.Location = new System.Drawing.Point(260, 496);
+            this.nextLevelCheckBox.Name = "nextLevelCheckBox";
+            this.nextLevelCheckBox.Size = new System.Drawing.Size(226, 32);
+            this.nextLevelCheckBox.TabIndex = 6;
+            this.nextLevelCheckBox.Text = "Automatic Next Level";
+            this.nextLevelCheckBox.UseVisualStyleBackColor = true;
+            this.nextLevelCheckBox.CheckedChanged += new System.EventHandler(this.nextLevelCheckBox_CheckedChanged);
+            // 
             // MemoryGameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(57)))), ((int)(((byte)(70)))));
             this.ClientSize = new System.Drawing.Size(484, 561);
+            this.Controls.Add(this.nextLevelCheckBox);
             this.Controls.Add(this.maxScoreLabel);
             this.Controls.Add(this.scoreLabel);
             this.Controls.Add(this.gamePanel);
@@ -122,6 +137,7 @@ namespace MemoryGame
         private System.Windows.Forms.Panel gamePanel;
         private System.Windows.Forms.Label scoreLabel;
         private System.Windows.Forms.Label maxScoreLabel;
+        private System.Windows.Forms.CheckBox nextLevelCheckBox;
     }
 }
 

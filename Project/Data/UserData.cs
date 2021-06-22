@@ -9,5 +9,6 @@ namespace MemoryGame.Project.Data
     public class UserData
     {
         public int MaxScore { get; set; }
+        public bool NextLevelAuto { get; set; }
     }
 }

@@ -34,7 +34,11 @@ namespace MemoryGame
                 FileStream file = File.Create("data\\udata.json");
                 file.Close();
 
-                data = new UserData { MaxScore = 0 };
+                data = new UserData 
+                { 
+                    MaxScore = 0,
+                    NextLevelAuto = false
+                };
 
                 json.WriteData(data, "data\\udata.json");
             }
@@ -42,7 +46,7 @@ namespace MemoryGame
             {
                 data = json.ReadData("data\\udata.json");
             }
-
+            nextLevelCheckBox.Checked = data.NextLevelAuto;
             maxScoreLabel.Text += data.MaxScore.ToString();
         }
 
@@ -100,22 +104,25 @@ namespace MemoryGame
 
             showingPads = false;
 
-            await Task.Delay(4000);
-
             bool isCorrect = false;
-            
-            for (int i = 0; i < selectedPads.Length; i++) // For all panels
+
+            if (data.NextLevelAuto)
             {
-                if (selectedPads[i] && genValues.Contains(i)) // If the panel is selected by the user and it is in the generate values,
+                int waiter = 0;
+                while (waiter < 16)
                 {
-                    isCorrect = true; // it's a good answer
-                }
-                else if ((selectedPads[i] && !genValues.Contains(i)) /* If the panel is selected but it is not in the generate values, */ || (!selectedPads[i] && genValues.Contains(i)) /* If the panel is not selected but it is in the generate values, */)
-                {
-                    isCorrect = false; // it's not a good answer
-                    break; // So break the for loop because it's wrong in all cases
+                    isCorrect = IsPadsSelectionValid(genValues);
+                    if (isCorrect) break;
+                    waiter++;
+                    await Task.Delay(250);
                 }
             }
+            else
+            {
+                await Task.Delay(4000);
+            }
+
+            isCorrect = IsPadsSelectionValid(genValues);
 
             if (isCorrect)
             {
@@ -141,7 +148,11 @@ namespace MemoryGame
 
                 if (currentScore > data.MaxScore)
                 {
-                    data = new UserData { MaxScore = currentScore };
+                    data = new UserData 
+                    { 
+                        MaxScore = currentScore,
+                        NextLevelAuto = data.NextLevelAuto
+                    };
                     json.WriteData(data, "data\\udata.json");
                     maxScoreLabel.Text = $"Max score: {data.MaxScore}";
                 }
@@ -232,6 +243,34 @@ namespace MemoryGame
 
             selectedPads[x] = !selectedPads[x];
             gamePads[x].BackColor = (selectedPads[x] ? Color.FromArgb(190, 190, 190) : Color.FromArgb(241, 250, 238));
+        }
+
+        private bool IsPadsSelectionValid(List<int> genValues)
+        {
+            bool isCorrect = false;
+            for (int i = 0; i < selectedPads.Length; i++) // For all panels
+            {
+                if (selectedPads[i] && genValues.Contains(i)) // If the panel is selected by the user and it is in the generate values,
+                {
+                    isCorrect = true; // it's a good answer
+                }
+                else if ((selectedPads[i] && !genValues.Contains(i)) /* If the panel is selected but it is not in the generate values, */ || (!selectedPads[i] && genValues.Contains(i)) /* If the panel is not selected but it is in the generate values, */)
+                {
+                    isCorrect = false;
+                    break; // So break the for loop because it's wrong in all cases
+                }
+            }
+            return isCorrect;
+        }
+
+        private void nextLevelCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            data = new UserData
+            {
+                MaxScore = data.MaxScore,
+                NextLevelAuto = nextLevelCheckBox.Checked
+            };
+            json.WriteData(data, "data\\udata.json");
         }
     }
 }
