@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using MemoryGame.Project.Json;
+using System.Net;
+using System.Diagnostics;
 
 namespace MemoryGame
 {
@@ -48,6 +50,14 @@ namespace MemoryGame
             }
             nextLevelCheckBox.Checked = data.NextLevelAuto;
             maxScoreLabel.Text += data.MaxScore.ToString();
+
+            string lastReleaseVersion = new WebClient().DownloadString("https://raw.githubusercontent.com/Cu-chi/MemoryGame/master/");
+            if (double.Parse(data.Version) < double.Parse(lastReleaseVersion))
+            {
+                DialogResult msgBoxResult = MessageBox.Show($"Version {lastReleaseVersion} is available.\n You're using the version {data.Version}.\nDownload it now?", "New version available", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                if (msgBoxResult == DialogResult.Yes)
+                    Process.Start(new ProcessStartInfo("cmd", $"/c start https://github.com/Cu-chi/MemoryGame/releases") { CreateNoWindow = true });
+            }
         }
 
         private void startButton_Click(object sender, EventArgs e)

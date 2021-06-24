@@ -10,5 +10,6 @@ namespace MemoryGame.Project.Data
     {
         public int MaxScore { get; set; }
         public bool NextLevelAuto { get; set; }
+        public string Version { get; } = "1.2";
     }
 }
