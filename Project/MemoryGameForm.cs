@@ -51,18 +51,21 @@ namespace MemoryGame
             nextLevelCheckBox.Checked = data.NextLevelAuto;
             maxScoreLabel.Text += data.MaxScore.ToString();
 
-            string lastReleaseVersion = new WebClient().DownloadString("https://raw.githubusercontent.com/Cu-chi/MemoryGame/master/");
-            if (double.Parse(data.Version) < double.Parse(lastReleaseVersion))
+            string lastReleaseVersion = new WebClient().DownloadString("https://raw.githubusercontent.com/Cu-chi/MemoryGame/master/last_release_version.txt");
+            if (data.Version != lastReleaseVersion)
             {
-                DialogResult msgBoxResult = MessageBox.Show($"Version {lastReleaseVersion} is available.\n You're using the version {data.Version}.\nDownload it now?", "New version available", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                DialogResult msgBoxResult = MessageBox.Show($"Version {lastReleaseVersion} is available.\nYou're using the version {data.Version}.\n\nDownload it now?", "New version available", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
                 if (msgBoxResult == DialogResult.Yes)
                     Process.Start(new ProcessStartInfo("cmd", $"/c start https://github.com/Cu-chi/MemoryGame/releases") { CreateNoWindow = true });
             }
+
+            ToolTips();
         }
 
         private void startButton_Click(object sender, EventArgs e)
         {
             Game(9, 1000, 1);
+            gamePanel.Visible = true;
         }
 
         private async void Game(int padNecessary, int showDelay, int neededBlackPad)
@@ -281,6 +284,12 @@ namespace MemoryGame
                 NextLevelAuto = nextLevelCheckBox.Checked
             };
             json.WriteData(data, "data\\udata.json");
+        }
+
+        private void ToolTips()
+        {
+            ToolTip toolTip = new ToolTip();
+            toolTip.SetToolTip(nextLevelCheckBox, "Automatic next level on a good selection");
         }
     }
 }

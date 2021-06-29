@@ -73,6 +73,7 @@ namespace MemoryGame
             this.gamePanel.Name = "gamePanel";
             this.gamePanel.Size = new System.Drawing.Size(360, 360);
             this.gamePanel.TabIndex = 2;
+            this.gamePanel.Visible = false;
             // 
             // scoreLabel
             // 
