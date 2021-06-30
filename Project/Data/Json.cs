@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace MemoryGame.Project.Json
 {
-    class Json
+    static class Json
     {
-        public bool WriteData(UserData dataToWrite, string p)
+        public static bool WriteData(UserData dataToWrite, string p)
         {
             try
             {
@@ -23,7 +23,7 @@ namespace MemoryGame.Project.Json
             }
         }
 
-        public UserData ReadData(string p)
+        public static UserData ReadData(string p)
         {
             UserData data;
             try

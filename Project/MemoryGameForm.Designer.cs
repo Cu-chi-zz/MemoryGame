@@ -126,6 +126,7 @@ namespace MemoryGame
             this.MaximizeBox = false;
             this.Name = "MemoryGameForm";
             this.Text = "Memory Game";
+            this.Load += new System.EventHandler(this.MemoryGameForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

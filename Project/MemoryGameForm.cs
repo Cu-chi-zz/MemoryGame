@@ -25,7 +25,6 @@ namespace MemoryGame
         private System.Media.SoundPlayer goodAnswerSound = new(@"sounds/good-answer.wav");
         private System.Media.SoundPlayer wrongAnswerSound = new(@"sounds/wrong-answer.wav");
         private UserData data = new();
-        private Json json = new();
 
         public MemoryGameForm()
         {
@@ -42,11 +41,11 @@ namespace MemoryGame
                     NextLevelAuto = false
                 };
 
-                json.WriteData(data, "data\\udata.json");
+                Json.WriteData(data, "data\\udata.json");
             }
             else
             {
-                data = json.ReadData("data\\udata.json");
+                data = Json.ReadData("data\\udata.json");
             }
             nextLevelCheckBox.Checked = data.NextLevelAuto;
             maxScoreLabel.Text += data.MaxScore.ToString();
@@ -166,7 +165,7 @@ namespace MemoryGame
                         MaxScore = currentScore,
                         NextLevelAuto = data.NextLevelAuto
                     };
-                    json.WriteData(data, "data\\udata.json");
+                    Json.WriteData(data, "data\\udata.json");
                     maxScoreLabel.Text = $"Max score: {data.MaxScore}";
                 }
 
@@ -283,13 +282,18 @@ namespace MemoryGame
                 MaxScore = data.MaxScore,
                 NextLevelAuto = nextLevelCheckBox.Checked
             };
-            json.WriteData(data, "data\\udata.json");
+            Json.WriteData(data, "data\\udata.json");
         }
 
         private void ToolTips()
         {
             ToolTip toolTip = new ToolTip();
             toolTip.SetToolTip(nextLevelCheckBox, "Automatic next level on a good selection");
+        }
+
+        private void MemoryGameForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
