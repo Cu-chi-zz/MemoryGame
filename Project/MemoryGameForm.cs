@@ -290,10 +290,5 @@ namespace MemoryGame
             ToolTip toolTip = new ToolTip();
             toolTip.SetToolTip(nextLevelCheckBox, "Automatic next level on a good selection");
         }
-
-        private void MemoryGameForm_Load(object sender, EventArgs e)
-        {
-
-        }
     }
 }
